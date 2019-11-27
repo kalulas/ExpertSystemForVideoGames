@@ -4,8 +4,11 @@ from tkinter import ttk, scrolledtext
 # from tkinter import scrolledtext
 from VideoGame import VideoGame
 
+# 关联九种不同rating的intVar列表，为1时表示被选中
+intVar = []
 # game_list = []
 # printMaximum = 1
+rating_list =  ['nan', 'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M']
 csv_filepath = '../video-game-sales-with-ratings/Video_Games_Sales.csv'
 
 if __name__ == '__main__':
@@ -60,6 +63,26 @@ if __name__ == '__main__':
     to_year_select.grid(row=4, column=3)
 
     # 第五行，对游戏评分做出要求
-    
+    critical_score_scale = tk.Scale(window, label='媒体评分高于', from_=0, to=10, orient=tk.HORIZONTAL,
+             length=400, showvalue=1, tickinterval=1, resolution=0.1)
+    critical_score_scale.grid(row=5, column=0, columnspan=2)
+    user_score_scale = tk.Scale(window, label='大众评分高于', from_=0, to=10, orient=tk.HORIZONTAL,
+             length=400, showvalue=1, tickinterval=1, resolution=0.1)
+    user_score_scale.grid(row=5, column=2, columnspan=2)
+
+    # 第六行，确认提交所选游戏指标要求
+    submit_btn = tk.Button(window, text='提交')
+    submit_btn.grid(row=6, column=4)
+
+    # 最右列放置一个用于选择游戏分级的listGroup
+    rating_frame = tk.Frame(window)
+    rating_frame.grid(row=3, column=4, rowspan=3)
+    for i in range(9):
+        intVar.append(tk.IntVar)
+        check = tk.Checkbutton(rating_frame, text=rating_list[i], variable=intVar[i], onvalue=1, offvalue=0)
+        check.pack()
+    # nan_check = tk.Checkbutton(rating_frame, text='nan', variable=intVar[0], onvalue=1, offvalue=0)
+    # e10_check = tk.Checkbutton(rating_frame, text='E10+', variable=intVar[1], onvalue=1, offvalue=0)
+    # nan_check.pack()
 
     window.mainloop()
