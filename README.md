@@ -49,4 +49,5 @@ This repository, https://github.com/wtamu-cisresearch/scraper, after a few adjus
 
 **13**  genres in total:  {'Sports', 'Adventure', 'Puzzle', nan, 'Strategy', 'Simulation', 'Role-Playing', 'Fighting', 'Platform', 'Shooter', 'Racing', 'Misc', 'Action'}  
 **31**  platforms in total:  {'SNES', 'GEN', '3DO', 'SCD', 'DS', 'DC', 'N64', 'PSP', 'Wii', 'PS4', 'NES', 'PS', '2600', 'XOne', 'TG16', 'XB', 'NG', 'PC', 'WiiU', 'GBA', 'GC', 'WS', 'GG', '3DS', 'GB', 'SAT', 'X360', 'PSV', 'PCFX', 'PS2', 'PS3'}  
-**9**  ratings in total:  {nan, 'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M'}
+**9**  ratings in total:  {nan, 'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M'}  
+**留意当类型是NaN就符合一切类型检索，评级是NaN同样符合一切评级检索，评分为NaN符合一切评分，发布年代中不允许存在NaN**

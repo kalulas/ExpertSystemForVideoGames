@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import tkinter as tk
 import tkinter.font as tkFont
@@ -10,16 +11,17 @@ intVar = []
 # game_list = []
 # printMaximum = 1
 rating_list =  ['nan', 'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M']
-csv_filepath = '../video-game-sales-with-ratings/Video_Games_Sales.csv'
+# os.chdir('../video-game-sales-with-ratings/')
+csv_filepath = './video-game-sales-with-ratings/Video_Games_Sales.csv'
 
 if __name__ == '__main__':
     # TODO: 初始化，考虑封装为函数
-    # dataFrame = pd.read_csv(csv_filepath)
-    # for index, row in dataFrame.iterrows():
-    #     VideoGame(row)
-    # game_list = VideoGame.games
+    dataFrame = pd.read_csv(csv_filepath)
+    for index, row in dataFrame.iterrows():
+        VideoGame(row)
+    game_list = VideoGame.games
 
-    # 用于查看表中的特定属性种类以及具体内容
+    # 用于早期输出表中的特定属性种类以及具体内容
     # VideoGame.show_genre()
     # VideoGame.show_platform()
     # VideoGame.show_rating()
@@ -46,10 +48,12 @@ if __name__ == '__main__':
     next_btn.grid(row=2, column=4, ipadx=20)
 
     # 第三行用于选择游戏所在平台以及游戏类型
-    platform_label = tk.Label(window, text='主机平台', font=('tMicrosoft YaHei',10))
-    genre_label = tk.Label(window, text='游戏类型', font=('tMicrosoft YaHei',10))
-    platform_select = ttk.Combobox(window)
-    genre_select = ttk.Combobox(window)
+    platform_label = tk.Label(window, text='主机平台', font=('tMicrosoft YaHei',12,'bold'))
+    genre_label = tk.Label(window, text='游戏类型', font=('tMicrosoft YaHei',12,'bold'))
+    platform_select = ttk.Combobox(window, value=list(VideoGame.Platform))
+    platform_select.current(0)
+    genre_select = ttk.Combobox(window, value=list(VideoGame.Genre))
+    genre_select.current(0)
     platform_label.grid(row=3, column=0)
     platform_select.grid(row=3, column=1)
     genre_label.grid(row=3, column=2)
@@ -57,10 +61,12 @@ if __name__ == '__main__':
 
     # 第四行，选择游戏发售时间段
     # TODO: 日期选择错误时报错
-    time_range_labelA = tk.Label(window, text='发售时间自', font=('tMicrosoft YaHei',10))
-    time_range_labelB = tk.Label(window, text='年起至', font=('tMicrosoft YaHei',10))
-    from_year_select = ttk.Combobox(window)
-    to_year_select = ttk.Combobox(window)
+    time_range_labelA = tk.Label(window, text='发售时间自', font=('tMicrosoft YaHei',12,'bold'))
+    time_range_labelB = tk.Label(window, text='年起至', font=('tMicrosoft YaHei',12,'bold'))
+    from_year_select = ttk.Combobox(window, value=list(VideoGame.YearOfRelease))
+    from_year_select.current(0)
+    to_year_select = ttk.Combobox(window, value=list(VideoGame.YearOfRelease))
+    to_year_select.current(0)
     time_range_labelA.grid(row=4, column=0)
     time_range_labelB.grid(row=4, column=2)
     from_year_select.grid(row=4, column=1)
@@ -75,13 +81,13 @@ if __name__ == '__main__':
     user_score_scale.grid(row=5, column=2, columnspan=2)
 
     # 第六行，确认提交所选游戏指标要求
-    submit_btn = tk.Button(window, text='提交')
+    submit_btn = tk.Button(window, text='提交', font=('Microsoft YaHei', 15))
     submit_btn.grid(row=6, column=2, ipadx=70, ipady=10, pady=10)
 
     # 最右列放置一个用于选择游戏分级的listGroup
     rating_frame = tk.Frame(window)
     rating_frame.grid(row=3, column=4, rowspan=3)
-    rating_note_label = tk.Label(rating_frame, text='游戏评级选择', font=('tMicrosoft YaHei',10))
+    rating_note_label = tk.Label(rating_frame, text='游戏评级选择', font=('tMicrosoft YaHei',12,'bold'))
     rating_note_label.pack()
     for i in range(9):
         intVar.append(tk.IntVar)
