@@ -95,12 +95,12 @@ if __name__ == '__main__':
 
     window = tk.Tk()
     window.title("Play-Smart.expertsystem")
-    window.geometry('1024x768')
+    window.geometry('1024x640')
     window.resizable(width=False, height=False)
 
     # 第0行与第一行放置给用户的推荐游戏信息
     message = tk.Label(window, text='[EXPERT SYSTEM]', font=('Microsoft YaHei', 18))
-    result_window = tk.Frame(window, width=1024, height=200)
+    result_window = tk.Frame(window, width=1024, height=180)
     # 保证窗口大小不变
     result_window.propagate(0)
     message.grid(row=0, columnspan=5)
