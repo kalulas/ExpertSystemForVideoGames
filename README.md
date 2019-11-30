@@ -2,6 +2,7 @@
 
 #### 运行环境
 
+执行主目录下的expert.exe 可直接运行  
 python3.7 非必须
 
 pandas

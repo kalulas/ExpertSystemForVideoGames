@@ -1,2 +1,6 @@
 __pycache__
 .vscode
+# 打包文件相关文件夹不放进项目了
+build
+dist
+expert.spec
