@@ -4,7 +4,6 @@ import pandas as pd
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk, scrolledtext
-# from tkinter import scrolledtext
 from VideoGame import VideoGame
 
 NORECORD = 'NORECORD'
@@ -15,10 +14,18 @@ selection = 0
 game_list = []
 # 满足用户搜索条件的游戏
 properties = []
-# printMaximum = 1
 rating_list =  ['E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M']
-# os.chdir('../video-game-sales-with-ratings/')
-csv_filepath = './video-game-sales-with-ratings/Video_Games_Sales.csv'
+
+
+def load_csv():
+    global game_list
+    csv_filepath = './video-game-sales-with-ratings/Video_Games_Sales.csv'
+    dataFrame = pd.read_csv(csv_filepath)
+    # 在这里对nan数据进行处理
+    dataFrame.fillna(NORECORD,inplace=True)
+    for index, row in dataFrame.iterrows():
+        VideoGame(row)
+    game_list = VideoGame.games
 
 
 def change_display():
@@ -55,6 +62,8 @@ def properties_filter():
                         and(game.rating == NORECORD or game.rating in allowed_rating):
             properties.append(game)
     print('RESULT: ', len(properties))
+    # 对搜索结果按照年份逆序排列
+    properties = sorted(properties, key=lambda game: game.year_of_release if type(game.year_of_release) == int else -1, reverse=True)
     # 在窗口中显示符合用户要求的首条记录
     # 检测结果条数是否 > 0
     if len(properties):
@@ -78,14 +87,7 @@ def prev_message():
         result_message['text'] = change_display()
 
 if __name__ == '__main__':
-    # TODO: 初始化，考虑封装为函数
-    dataFrame = pd.read_csv(csv_filepath)
-    # 在这里对nan数据进行处理
-    dataFrame.fillna(NORECORD,inplace=True)
-    for index, row in dataFrame.iterrows():
-        VideoGame(row)
-    game_list = VideoGame.games
-
+    load_csv()
     # 用于早期输出表中的特定属性种类以及具体内容
     # VideoGame.show_genre()
     # VideoGame.show_platform()
