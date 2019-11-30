@@ -3,9 +3,8 @@
 #### 运行环境
 
 执行主目录下的expert.exe 可直接运行  
-python3.7 非必须
-
-pandas
+代码执行 在expertSystem目录下执行 python expert.py  
+python3.7 pandas
 
 #### 数据情况
 
