@@ -18,7 +18,7 @@ game_list = []
 properties = []
 rating_list =  ['E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M']
 
-
+# 启动应用时加载指定目录下的csv文件进行游戏对象创建
 def load_csv():
     global game_list
     csv_filepath = './video-game-sales-with-ratings/Video_Games_Sales.csv'
@@ -30,7 +30,7 @@ def load_csv():
     game_list = VideoGame.games
     return len(game_list)>0
 
-
+# 以指定格式更改推荐游戏的内容
 def change_display():
     global properties, selection
     display_message = '\n为您找到 {} 款游戏，当前显示第 {} 项\n\n游戏名称：{}\n游戏类型：{}\n发售时间：{}\n发售平台：{}\n开发者：{}\n媒体评分：{}\n大众评分：{}\n游戏销量（百万）：{}\n游戏评级：{}\n'.format(
@@ -40,11 +40,12 @@ def change_display():
                             properties[selection].rating)
     return display_message
 
-
+# 根据用户的检索条件从游戏对象队列中遍历查找符合条件的对象
+# 将符合条件的对象存储在properties中
 def properties_filter():
     global properties, selection
     properties.clear()
-    # 得到界面中用户选择的查询条件 
+    # 从各个组件中得到界面中用户选择的查询条件 
     platform = platform_select.get()
     genre = genre_select.get()
     l_bound = int(from_year_select.get())
@@ -56,7 +57,8 @@ def properties_filter():
     for idx in range(len(intVar)):
         if intVar[idx].get():
             allowed_rating.append(rating_list[idx])
-    print('RULE: ',platform, genre, l_bound, r_bound, critical_score_l, user_score_l)
+    # 终端打印出用户的选取规则
+    print('【RULE】',platform, genre, l_bound, r_bound, critical_score_l, user_score_l)
     for game in game_list:
         if game.platform == platform and game.genre == genre \
             and (game.year_of_release == NORECORD or game.year_of_release >= l_bound and game.year_of_release <= r_bound)\
@@ -64,7 +66,9 @@ def properties_filter():
                     and(game.user_score == NORECORD or game.user_score >= user_score_l)\
                         and(game.rating == NORECORD or game.rating in allowed_rating):
             properties.append(game)
-    print('RESULT: ', len(properties))
+    # 终端符合用户要求的选区结果
+    print('【RESULT】', len(properties))
+    print()
     # 对搜索结果按照年份逆序排列
     properties = sorted(properties, key=lambda game: game.year_of_release if type(game.year_of_release) == int else -1, reverse=True)
     # 在窗口中显示符合用户要求的首条记录
@@ -113,9 +117,8 @@ if __name__ == '__main__':
             sleep(3)
             exit()
     # 用于早期输出表中的特定属性种类以及具体内容
-    # VideoGame.show_genre()
-    # VideoGame.show_platform()
-    # VideoGame.show_rating()
+    VideoGame.show_genre()
+    VideoGame.show_platform()
 
     # 第二行设置按钮，有多条推荐信息时用按钮进行切换
     prev_btn = Button(window, text='上一条', command=prev_message)
@@ -136,7 +139,6 @@ if __name__ == '__main__':
     genre_select.grid(row=3, column=3)
 
     # 第四行，选择游戏发售时间段
-    # TODO: 日期选择错误时报错
     time_range_labelA = Label(window, text='发售时间自', font=('tMicrosoft YaHei',12,'bold'))
     time_range_labelB = Label(window, text='年起至', font=('tMicrosoft YaHei',12,'bold'))
     from_year_select = ttk.Combobox(window, value=list(VideoGame.YearOfRelease))
