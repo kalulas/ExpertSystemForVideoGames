@@ -43,11 +43,14 @@ This repository, https://github.com/wtamu-cisresearch/scraper, after a few adjus
 
 #### 列入筛选条件
 
-类型（13种单选）、平台（31种单选）、分级（9种多选）、发布年代（1980-2017）、专业评价（0-100）、大众评价（0-10）
+类型（13种单选）、平台（31种单选）、分级（8种多选）、发布年代（1980-2020）、专业评价（0-100）、大众评价（0-10）
 
 不选默认全选
 
 **13**  genres in total:  {'Sports', 'Adventure', 'Puzzle', nan, 'Strategy', 'Simulation', 'Role-Playing', 'Fighting', 'Platform', 'Shooter', 'Racing', 'Misc', 'Action'}  
 **31**  platforms in total:  {'SNES', 'GEN', '3DO', 'SCD', 'DS', 'DC', 'N64', 'PSP', 'Wii', 'PS4', 'NES', 'PS', '2600', 'XOne', 'TG16', 'XB', 'NG', 'PC', 'WiiU', 'GBA', 'GC', 'WS', 'GG', '3DS', 'GB', 'SAT', 'X360', 'PSV', 'PCFX', 'PS2', 'PS3'}  
-**9**  ratings in total:  {nan, 'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M'}  
+**8**  ratings in total:  {'E10+', 'T', 'K-A', 'RP', 'E', 'EC', 'AO', 'M'}  
+
+已经将数据中的NaN全部替换成变量NORECORD  
+
 **留意当类型是NaN就符合一切类型检索，评级是NaN同样符合一切评级检索，评分为NaN符合一切评分，发布年代中不允许存在NaN**
