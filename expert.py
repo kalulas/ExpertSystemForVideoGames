@@ -1,5 +1,6 @@
 import os
 import copy
+import time
 from time import sleep
 from pandas import read_csv
 from tkinter import Label, Frame, Button, Checkbutton, Tk, IntVar, HORIZONTAL, Scale, filedialog
@@ -7,6 +8,7 @@ import tkinter.font as tkFont
 from tkinter import ttk, scrolledtext
 from VideoGame import VideoGame
 from ActionData import ActionData
+from Evaluation import Evaluation
 
 NORECORD = 'NORECORD'
 # 关联九种不同rating的intVar列表，为1时表示被选中
@@ -34,25 +36,23 @@ def switch_property(direction):
 def properties_filter():
     # 从各个组件中得到界面中用户选择的查询条件 
     ActionData.properties.clear()
-    platform = platform_select.get()
-    genre = genre_select.get()
-    l_bound = int(from_year_select.get())
-    r_bound = int(to_year_select.get())
-    critical_score_l = int(critical_score_scale.get())
-    user_score_l = round((user_score_scale.get()),1)
+    
+    args = {'pf': platform_select.get(),
+            'ge': genre_select.get(),
+            'lb': int(from_year_select.get()),
+            'rb': int(to_year_select.get()),
+            'cs': int(critical_score_scale.get()),
+            'us': round((user_score_scale.get()),1)}
     allowed_rating = []
     for idx in range(len(intVar)):
         if intVar[idx].get():
             allowed_rating.append(rating_list[idx])
-    
-    # 终端打印出用户的选取条件
-    print('【RULE】',platform, genre, l_bound, r_bound, critical_score_l, user_score_l)
+    args['ar'] = allowed_rating
+    evaluate = Evaluation(args)
+    evaluate.print_rule()
+
     for game in game_list:
-        if game.platform == platform and game.genre == genre \
-            and (game.year_of_release == NORECORD or game.year_of_release >= l_bound and game.year_of_release <= r_bound)\
-                and (game.critic_score == NORECORD or game.critic_score >= critical_score_l) \
-                    and(game.user_score == NORECORD or game.user_score >= user_score_l)\
-                        and(game.rating == NORECORD or game.rating in allowed_rating):
+        if evaluate.qualified(game):
             ActionData.properties.append(game)
     
     # 终端符合用户要求的选取结果
@@ -73,6 +73,7 @@ if __name__ == '__main__':
     window = Tk()
     window.title("Play-Smart.expertsystem")
     window.geometry('1024x640')
+    window.iconbitmap('./game_128px_1234884_easyicon.net.ico')
     window.resizable(width=False, height=False)
 
     # 第0行与第一行放置给用户的推荐游戏信息
@@ -136,17 +137,23 @@ if __name__ == '__main__':
     # 【Load Properties】UI界面加载完毕后加载csv文件
     # 创建ActionData对象action_data_agent
     # 激发WHEN CHANGED对数据库中的所有记录进行实例化
-    print('SYSTEM: 专家正在加载CSV文件')
+    print('SYSTEM: 专家正在选择加载CSV文件')
     print('SYSTEM: 当前目录', os.getcwd())
-    csv_filepath = filedialog.askopenfilename(initialdir=os.getcwd(), title='选择csv文件')
-    print('SYSTEM: csv文件加载中...')
-    action_data_agent = ActionData()
-    game_list = action_data_agent.load_properties(csv_filepath)
-    if len(game_list) == 0:
-        print('ERROR: 无法加载 CSV 文件')
+    try:
+        result_message['text'] = '正在加载数据...'
+        csv_filepath = filedialog.askopenfilename(initialdir=os.getcwd(), title='选择csv文件')
+        start = time.time()
+        print('SYSTEM: csv文件加载中...')
+        action_data_agent = ActionData()
+        game_list = action_data_agent.load_properties(csv_filepath)
+        counter = round(time.time() - start, 2)
+        result_message['text'] = '数据加载完毕，耗时{}s，目前还没有推荐内容'.format(counter)
+        print('SYSTEM: csv文件加载完毕,耗时{}s'.format(counter))
+    except Exception:
+        print('ERROR: 加载 CSV 文件失败')
+        window.destroy()
         sleep(1)
         exit()
-    print('SYSTEM: csv文件加载完毕完成')
 
     # 根据数据加载首页下拉菜单内容
     platform_select['value'] = sorted(list(VideoGame.Platform))
