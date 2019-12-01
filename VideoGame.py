@@ -40,10 +40,12 @@ class VideoGame:
             VideoGame.YearOfRelease.add(int(self.year_of_release))
         VideoGame.games.append(self)
 
+    # 打印出爬取的数据文件有哪些游戏类型
     @ classmethod
     def show_genre(cls):
         print(len(cls.Genre), ' genres in total: ', cls.Genre)
-    
+        
+    # 打印出爬取的数据文件有哪些游戏平台
     @ classmethod
     def show_platform(cls):
         print(len(cls.Platform), ' platforms in total: ', cls.Platform)

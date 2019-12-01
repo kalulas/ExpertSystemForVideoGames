@@ -3,10 +3,9 @@ from VideoGame import VideoGame
 NORECORD = 'NORECORD'
 
 class ActionData:
-    # csv_filepath = './video-game-sales-with-ratings/Video_Games_Sales.csv'
     properties = []
     selection = 0
-    # 界面的提交按钮和Load Properties的WHEN CHANGED属性链接起来
+    # 主界面UI加载结束事件与load_properties()的WHEN CHANGED属性链接起来
     # 加载指定目录下的csv文件创建所有实例
     def load_properties(self, csv_filepath):
         # WHEN CHANGED
