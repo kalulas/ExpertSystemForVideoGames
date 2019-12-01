@@ -138,7 +138,7 @@ if __name__ == '__main__':
     # 激发WHEN CHANGED对数据库中的所有记录进行实例化
     print('SYSTEM: 专家正在加载CSV文件')
     print('SYSTEM: 当前目录', os.getcwd())
-    csv_filepath = filedialog.askopenfilename()
+    csv_filepath = filedialog.askopenfilename(initialdir=os.getcwd(), title='选择csv文件')
     print('SYSTEM: csv文件加载中...')
     action_data_agent = ActionData()
     game_list = action_data_agent.load_properties(csv_filepath)
